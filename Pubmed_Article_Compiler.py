@@ -1,7 +1,17 @@
 import pandas as pd
 from pathlib import Path 
 from datetime import datetime
-from Pubmed_Tools import get_title, get_first_author, get_date, get_doi
+
+##Method 1 of loading module
+
+#import importlib.util
+#spec = importlib.util.spec_from_file_location('pmt', 'Pubmed_Package/Pubmed_Tools.py')
+#pmt = importlib.util.module_from_spec(spec)
+#spec.loader.exec_module(pmt)
+
+##Method 2 of loading module
+from importlib.machinery import SourceFileLoader
+pmt = SourceFileLoader('Pubmed_Tools','Pubmed_Package/Pubmed_Tools.py').load_module()
 
 i = 1
 index = ['Title','First Author','Date and Citation','doi']
@@ -14,10 +24,10 @@ while True:
     option1 = int(input('Enter 1 to add a new article, 0 to stop and record results, or 00 to stop and quit without saving:'))
     if option1 == 1:
         link = str(input('Journal Article NCBI link:'))
-        heading = get_title(link)
-        first_author = get_first_author(link)
-        date = get_date(link)
-        doi = get_doi(link)
+        heading = pmt.get_title(link)
+        first_author = pmt.get_first_author(link)
+        date = pmt.get_date(link)
+        doi = pmt.get_doi(link)
         article_info = [heading, first_author, date, doi]
         articles[f'Article_{i}'] = article_info
         i += 1
